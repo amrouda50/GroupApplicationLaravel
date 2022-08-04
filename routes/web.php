@@ -14,9 +14,10 @@ use Inertia\Inertia;
 |
 */
 
+
 Route::get('/', function () {
     return Inertia::render('HomePage' ) ;
-});
+})->name('HomePage');
 Route::get('/register',[RegisterController::class , 'index']);
 Route::post('/register',[RegisterController::class , 'store']);
 Route::get('/login', function () {
