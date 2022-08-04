@@ -6,29 +6,32 @@
                 <h3 class="text-2xl font-bold text-center mb-4">In Unity We Believe</h3>
                 <h3 class="text-2xl font-bold text-center text-blue-400">
                Join Us </h3>
-                <form action="">
+                <form @submit.prevent="submit()" action="">
+
                     <div class="mt-4">
                         <div>
-                            <label class="block" for="Name">Name</label>
-                                <input type="text" placeholder="Name"
-                                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <label class="block" for="name">Name</label>
+                                <input  v-model="form.name" v-bind:class="{'border-red-500': errors.name}" type="text" placeholder="Name"
+                                       class="bg-slate-100 w-full px-4 py-2 mt-2 border  rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <div class="text-red-500 mt-2 text-sm " v-if="errors.name">{{ errors.name }}</div>
                         </div>
                         <div class="mt-4">
                             <label class="block" for="email">Email</label>
-                                <input type="text" placeholder="Email"
-                                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                                <input v-model="form.email"  v-bind:class="{'border-red-500': errors.name}" type="text" placeholder="Email"
+                                       class="bg-slate-100 w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <div class="text-red-500 mt-2 text-sm" v-if="errors.email">{{ errors.email }}</div>
                         </div>
                         <div class="mt-4">
-                            <label class="block">Password</label>
-                                <input type="password" placeholder="Password"
-                                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <label class="block" for="password">Password</label>
+                                <input v-model="form.password" v-bind:class="{'border-red-500': errors.name}" type="password" placeholder="Password"
+                                       class="bg-slate-100 w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <div class="text-red-500 mt-2 text-sm" v-if="errors.password">{{ errors.password }}</div>
                         </div>
                         <div class="mt-4">
-                            <label class="block">Confirm Password</label>
-                                <input type="password" placeholder="Password"
-                                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                            <label for="password_confirmation" class="block">Confirm Password</label>
+                                <input v-model="form.password_confirmation" name="password_confirmation" type="password" placeholder="Password"
+                                       class="bg-slate-100 w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                         </div>
-                        <span class="text-xs text-red-400">Password must be same!</span>
                         <div class="flex">
                             <button class="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Create
                                 Account</button>
@@ -52,12 +55,31 @@
 import NavBar from './nav/NavBar'
 import { Link } from '@inertiajs/inertia-vue'
 export default {
+    props:{
+      errors:Object,
+    },
+    data() {
+        return {
+            form: {
+                name: null,
+                password: null,
+                password_confirmation:null,
+                email: null,
+
+            },
+        }
+    },
     components: {
         NavBar,
         Link,
     },
-
-
+    methods:{
+        submit(){
+            this.$inertia.post('/register', this.form)
+        }
+        ,
+    }
+    ,
 }
 
 </script>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 /*
@@ -16,9 +17,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('HomePage' ) ;
 });
-Route::get('/register', function () {
-    return Inertia::render('Register' ) ;
-});
+Route::get('/register',[RegisterController::class , 'index']);
+Route::post('/register',[RegisterController::class , 'store']);
 Route::get('/login', function () {
     return Inertia::render('Login' ) ;
 });
