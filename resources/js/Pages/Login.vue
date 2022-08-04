@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavBar/>
+        <NavBar v-bind:is-logged-in="IsLoggedIn" />
         <section class="h-screen">
             <div class="px-6 h-full text-gray-800">
                 <div
@@ -86,7 +86,11 @@ export default {
         NavBar,
         Link,
     },
-
+    props:{
+        IsLoggedIn: {
+            required: true,
+        },
+    },
 
 }
 

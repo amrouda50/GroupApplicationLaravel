@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavBar>
+        <NavBar v-bind:is-logged-in="IsLoggedIn">
 
         </NavBar>
     </div>
@@ -14,6 +14,11 @@ export default {
     components:{
         NavBar,
     },
+    props:{
+        IsLoggedIn: {
+            required: true,
+        },
+   },
 }
 
 </script>
