@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use \App\Http\Controllers\Auth\HomePageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +16,7 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/', function () {
-    return Inertia::render('HomePage' ) ;
-})->name('HomePage');
+Route::get('/', [HomePageController::class , 'index'])->name('HomePage');
 Route::get('/register',[RegisterController::class , 'index']);
 Route::post('/register',[RegisterController::class , 'store']);
 Route::get('/login', function () {

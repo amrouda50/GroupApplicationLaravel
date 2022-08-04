@@ -34,7 +34,7 @@ class RegisterController extends Controller
             ]);
             //User Logging in
             Auth::attempt($request->only('email','password'));
-            //redirecting to the HomePage 
+            //redirecting to the HomePage
             return redirect()->route('HomePage');
     }
 }
