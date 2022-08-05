@@ -1,7 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/assets/handshake-deal-svgrepo-com (1).svg": "/assets/handshake-deal-svgrepo-com (1).svg",
-    "/assets/handshake-deal-svgrepo-com.svg": "/assets/handshake-deal-svgrepo-com.svg",
-    "/assets/NumOfEven.png": "/assets/NumOfEven.png"
+    "/images/handshake-deal-svgrepo-com (1).svg": "/images/handshake-deal-svgrepo-com (1).svg",
+    "/images/handshake-deal-svgrepo-com.svg": "/images/handshake-deal-svgrepo-com.svg",
+    "/images/cvpic2.jpg": "/images/cvpic2.jpg",
+    "/images/OmarImage.jpg": "/images/OmarImage.jpg"
 }

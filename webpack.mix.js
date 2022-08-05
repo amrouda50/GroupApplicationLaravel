@@ -1,7 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
 const tailwind = require('tailwindcss');
-const {sourceMaps} = require("laravel-mix");
 // config eslint
 mix.webpackConfig({
     module: {
@@ -51,7 +50,7 @@ mix
             },
         }
     })
-    .copyDirectory("resources/assets" , "public/assets");
+    .copyDirectory("resources/images" , "public/images");
 
 mix.options({
     hmrOptions: {
