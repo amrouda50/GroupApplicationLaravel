@@ -20,6 +20,7 @@ class RegisterController extends Controller
         return Inertia::render('Register' ) ;
     }
     public function store(Request $request){
+
             //Validating the registration information
              $this->validate($request ,[
                 'name' => 'required|max:255|min:2',

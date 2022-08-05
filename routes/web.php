@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomePageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use \App\Http\Controllers\Auth\HomePageController;
+use \App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,10 +21,7 @@ use \App\Http\Controllers\Auth\HomePageController;
 Route::get('/', [HomePageController::class , 'index'])->name('HomePage');
 Route::get('/register',[RegisterController::class , 'index']);
 Route::post('/register',[RegisterController::class , 'store']);
-Route::get('/login', function () {
-    return Inertia::render('Login' ) ;
-});
-Route::get('/aboutUs', function () {
-    return Inertia::render('AboutUs' ) ;
-});
+Route::get('/login', [LoginController::class , 'index']);
+Route::post('/login', [LoginController::class , 'login']);
+Route::get('/aboutUs', [AboutUsController::class , 'index']);
 
