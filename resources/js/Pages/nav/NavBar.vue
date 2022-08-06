@@ -17,16 +17,20 @@
                             <Link href="/"  :class="{'text-blue-700' : $page.url === '/' , 'text-gray-700' : $page.url !== '/' }" class="block py-2 pr-4 pl-3 bg-blue-700 rounded md:bg-transparent  md:p-0 dark:text-white" aria-current="page">Home</Link>
                         </li>
                         <li v-if="!IsLoggedIn" >
-                            <Link href="/login" :class="{'text-blue-700' : $page.url === '/login' , 'text-gray-700' : $page.url !== '/login' }" class="block py-2 pr-4 pl-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
+                            <Link :href="route('login')"  :class="{'text-blue-700' : $page.url === '/login' , 'text-gray-700' : $page.url !== '/login' }" class="block py-2 pr-4 pl-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
                         </li>
                         <li v-if="!IsLoggedIn">
-                            <Link  href="/register" :class="{'text-blue-700' : $page.url === '/register' , 'text-gray-700' : $page.url !== '/register' }" class="block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</Link>
+                            <Link  :href="route('register')" :class="{'text-blue-700' : $page.url === '/register' , 'text-gray-700' : $page.url !== '/register' }" class="block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</Link>
                         </li>
                         <li>
-                            <Link href="/aboutUs" :class="{'text-blue-700' : $page.url === '/aboutUs' , 'text-gray-700' : $page.url !== '/aboutUs' }" class="block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About us</Link>
+                            <Link :href="route('AboutUs')"  :class="{'text-blue-700' : $page.url === '/aboutUs' , 'text-gray-700' : $page.url !== '/aboutUs' }" class="block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About us</Link>
                         </li>
                         <li v-if="IsLoggedIn">
-                            <Link  href="/logout" :class="{'text-blue-700' : $page.url === '/login' , 'text-gray-700' : $page.url !== '/login' }" class="block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</Link>
+                            <form @submit.prevent="logout()">
+                                <button type="submit" class="text-gray-700 block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                                    Logout
+                                </button>
+                            </form>
                         </li>
 
                     </ul>
@@ -50,9 +54,11 @@ export default {
     components:{
         Link,
     },
-    mounted() {
-       console.log(this.$page)
-    },
+ methods:{
+       logout(){
+        this.$inertia.post(this.route('logout'))
+       },
+ },
 }
 
 </script>

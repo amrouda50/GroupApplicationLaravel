@@ -43,7 +43,7 @@
                         </div>
                         <div class="mt-6 text-grey-dark">
                             Already have an account?
-                            <Link class="text-blue-600 hover:underline" href="/login">
+                            <Link class="text-blue-600 hover:underline" :href="route('login')">
                                 Log in
                             </Link>
                         </div>
@@ -84,7 +84,7 @@ export default {
     methods:{
         //Overridden form submit method
         submit(){
-            this.$inertia.post('/register', this.form  , {
+            this.$inertia.post( this.route('register'), this.form  , {
                 onError: () => {
                     this.form.reset('password' , 'password_confirmation')
                 },
