@@ -14,8 +14,9 @@ module.exports = {
         "vue"
     ],
     "rules": {
-        'comma-dangle': ['error', 'always-multiline'],
+        'comma-dangle': 'off',
         semi: [2, 'never'],
         'vue/no-mutating-props': 'off',
-    }
+    },
+    ignorePatterns: ['vendor/**/*.js']
 }

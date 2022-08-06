@@ -46,7 +46,8 @@ mix
             alias: {
                 vue$: 'vue/dist/vue.runtime.esm.js',
                 '@': path.resolve('resources/js'),
-                '~': path.resolve('resources')
+                '~': path.resolve('resources'),
+                'ziggy': path.resolve('vendor/tightenco/ziggy/dist/vue'),
             },
         }
     })
@@ -57,5 +58,5 @@ mix.options({
         host: "localhost",
         port: 8500
     }
-})
+});
 

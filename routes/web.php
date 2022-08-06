@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomePageController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use \App\Http\Controllers\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +20,14 @@ use \App\Http\Controllers\LoginController;
 
 
 Route::get('/', [HomePageController::class , 'index'])->name('HomePage');
-Route::get('/register',[RegisterController::class , 'index']);
+
+Route::get('/register',[RegisterController::class , 'index'])->name('register');
 Route::post('/register',[RegisterController::class , 'store']);
-Route::get('/login', [LoginController::class , 'index']);
+
+Route::post('/logout', [LogoutController::class , 'index'])->name('logout');
+
+Route::get('/login', [LoginController::class , 'index'])->name('login');
 Route::post('/login', [LoginController::class , 'login']);
-Route::get('/aboutUs', [AboutUsController::class , 'index']);
+
+Route::get('/aboutUs', [AboutUsController::class , 'index'])->name('AboutUs');
 
