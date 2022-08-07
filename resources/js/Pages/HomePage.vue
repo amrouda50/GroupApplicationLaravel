@@ -1,10 +1,10 @@
 <template>
     <div class="bg-slate-600 background" >
         <div >
-            <NavBar v-bind:is-logged-in="IsLoggedIn" v-bind:user-email="UserEmail" v-bind:user-name="UserName">
+            <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName">
 
             </NavBar>
-            <SideNavBar>
+            <SideNavBar v-bind:groups="[...groups, ...groups, ...groups, ...groups]">
 
             </SideNavBar>
         </div>
@@ -23,9 +23,6 @@ export default {
         NavBar,
     },
     props:{
-        IsLoggedIn: {
-            required: true,
-        },
         UserName:{
             required:false,
             type: String,
@@ -38,6 +35,15 @@ export default {
             default:null,
         },
    },
+    data(){
+      return{
+          groups:[]
+      }
+    },
+   async created() {
+       const response = await fetch('./api/groups')
+       this.groups = await response.json()
+    },
 }
 
 </script>

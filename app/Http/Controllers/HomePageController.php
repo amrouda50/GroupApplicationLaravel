@@ -9,9 +9,6 @@ use phpDocumentor\Reflection\Types\Boolean;
 class HomePageController extends Controller
 {
     public function index(){
-        if(Auth::check()){
-            return Inertia::render('HomePage' , [ 'IsLoggedIn' => true , 'UserName' => Auth::user()->name , 'UserEmail' => Auth::user()->email]);
-        }
-        return Inertia::render('HomePage' , [ 'IsLoggedIn' => false]);
+        return Inertia::render('HomePage' , [ 'UserName' => Auth::user()->name , 'UserEmail' => Auth::user()->email]);
     }
 }
