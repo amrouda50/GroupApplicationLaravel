@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [HomePageController::class , 'index'])->name('HomePage');
+Route::get('/', [HomePageController::class , 'index'])->name('HomePage')->middleware('auth');
 
 Route::get('/register',[RegisterController::class , 'index'])->name('register');
 Route::post('/register',[RegisterController::class , 'store']);
