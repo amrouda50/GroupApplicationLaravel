@@ -1,7 +1,7 @@
 <template>
     <div>
-        <NavBar v-bind:is-logged-in="IsLoggedIn"/>
-        <figure class="md:flex bg-slate-100 rounded-xl p-8 dark:bg-slate-800 content">
+        <NavBar v-bind:is-logged-in="IsLoggedIn" v-bind:user-email="UserEmail" v-bind:user-name="UserName"/>
+        <figure class="md:flex bg-slate-100 p-8 dark:bg-slate-800 content">
             <img class="w-24 h-24 rounded-full mx-auto" :src="require('~/images/OmarImage.jpg')" alt="" width="384" height="512">
             <div class="pt-6 text-center space-y-4">
                 <blockquote>
@@ -22,7 +22,7 @@
                 </figcaption>
             </div>
         </figure>
-        <figure class="md:flex bg-slate-100 rounded-xl p-8 dark:bg-slate-800 contentOne">
+        <figure class="md:flex bg-slate-100  p-8 dark:bg-slate-800 contentOne">
             <img class=" w-28 h-24 rounded-full mx-auto" :src="require('~/images/AndreiImage.jpg')" alt="" width="384" height="512">
             <div class="pt-6 text-center space-y-4">
                 <blockquote>
@@ -55,6 +55,17 @@ export default {
     props:{
         IsLoggedIn: {
             required: true,
+        },
+        UserName:{
+            required:false,
+            type: String,
+            default:null,
+        },
+
+        UserEmail:{
+            required:false,
+            type: String,
+            default:null,
         },
     },
 

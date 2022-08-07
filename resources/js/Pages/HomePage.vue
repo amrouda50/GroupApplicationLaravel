@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavBar v-bind:is-logged-in="IsLoggedIn">
+        <NavBar v-bind:is-logged-in="IsLoggedIn" v-bind:user-email="UserEmail" v-bind:user-name="UserName">
 
         </NavBar>
     </div>
@@ -17,6 +17,17 @@ export default {
     props:{
         IsLoggedIn: {
             required: true,
+        },
+        UserName:{
+            required:false,
+            type: String,
+            default:null,
+        },
+
+        UserEmail:{
+            required:false,
+            type: String,
+            default:null,
         },
    },
 }
