@@ -1,13 +1,17 @@
 <template>
-    <div class="bg-slate-600/80 background flex content">
+    <div class="background bg-slate-600/80 flex content">
         <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName" />
         <SideNavBar
             v-bind:groups="groups"
             v-on:go-to-add-group="stats = 'addGroup'"
+            v-on:select-group="selectgroup"
+            v-on:delete-group="deletegroup"
         />
-        <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
-        <GroupDetails v-if="isGroupDetails" />
-        <UserDetails v-if="isUserDetails"/>
+        <div class="pl-20 pt-20">
+            <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
+            <GroupDetails v-if="isGroupDetails"  v-bind:Group="currentGroup"/>
+            <UserDetails v-if="isUserDetails"/>
+        </div>
     </div>
 </template>
 
@@ -45,6 +49,8 @@ export default {
       return{
           groups:[],
           stats:'default',
+          currentGroup:null,
+          currentDeletedGroup:null,
       }
     },
    async created() {
@@ -66,6 +72,7 @@ export default {
             return this.stats === 'groupDetails'
         }
     },
+
     methods:{
         async fetchNewGroups() {
             const response = await fetch('./api/groups')
@@ -75,6 +82,17 @@ export default {
         onAddUpdate(){
             this.fetchNewGroups()
         },
+        selectgroup(index){
+           this.currentGroup =  this.groups[index]
+            this.stats = 'groupDetails'
+        },
+         deletegroup(index){
+            this.currentDeletedGroup =  this.groups[index]
+            this.$inertia.delete( `/api/groups/${this.currentDeletedGroup.id}` , {
+                onBefore: () => confirm('Are you sure you want to delete this user?'),
+                onSuccess: () => this.onAddUpdate(),
+            })
+        },
     }
 }
 
@@ -83,6 +101,6 @@ export default {
 
 <style scoped>
 .background{
-    height: 100vh;
+    min-height: 100vh;
 }
 </style>
