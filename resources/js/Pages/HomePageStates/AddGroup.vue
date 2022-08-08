@@ -42,7 +42,6 @@ export default {
     methods:{
         //Overridden form submit method
         submit(){
-            console.log('asd')
             this.$inertia.post('/api/groups', this.form , {
                 onSuccess: () => {
                     this.$emit('update')

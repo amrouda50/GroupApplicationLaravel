@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\group;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class GroupController extends Controller
 {
@@ -19,5 +20,10 @@ class GroupController extends Controller
             'description' =>  $request->description,
         ]);
         return redirect()->back();
+    }
+    public function destroy($id){
+
+        group::find($id)->delete();
+        return redirect()->route('HomePage');
     }
 }
