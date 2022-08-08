@@ -4,3 +4,8 @@
 
 @tailwind utilities;
 
+
+.content {
+    margin-top: 55px;
+}
+
