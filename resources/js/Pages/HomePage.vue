@@ -70,6 +70,7 @@ export default {
         async fetchNewGroups() {
             const response = await fetch('./api/groups')
             this.groups = await response.json()
+            this.stats = 'default'
         },
         onAddUpdate(){
             this.fetchNewGroups()
