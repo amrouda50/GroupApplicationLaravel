@@ -27,7 +27,7 @@
                 </li>
 
                 <li v-if="IsLoggedIn">
-                    <img v-on:click="showStatus()"  :src="require('~/images/avatar-svgrepo-com.svg')" alt="Avatar" class="mr-3 h-6 sm:h-9 rounded-full">
+                    <img v-on:click="showStatus()"  :src="require('~/images/avatar-svgrepo-com.svg')" alt="Avatar" class="mr-3  cursor-pointer h-6 sm:h-9 rounded-full">
 
                 </li>
             </ul>

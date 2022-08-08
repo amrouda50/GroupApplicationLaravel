@@ -17,7 +17,6 @@
                     </div>
                     <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-16 md:mb-0">
                         <form @submit.prevent="submit" >
-
                             <!-- Email input -->
                             <div class="mb-6">
                                 <div class="text-red-500 mt-2 text-sm" v-if="errors.email">{{ errors.email }}</div>
@@ -46,12 +45,13 @@
                                 <div class="form-group form-check">
                                     <input
                                         type="checkbox"
+                                        v-model="isRememberClicked"
                                         class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-
                                     />
-                                    <label class="form-check-label inline-block text-gray-800" for="exampleCheck2"
+                                    <label class="form-check-label inline-block text-gray-800"
                                     >Remember me</label
                                     >
+                                    <div class="text-red-500 mt-2 text-sm" v-if="errors.credentials">{{ errors.credentials }}</div>
                                 </div>
                                 <a href="#!" class="text-gray-800">Forgot password?</a>
                             </div>
@@ -91,8 +91,22 @@ export default {
             form:this.$inertia.form ({
                 email: null,
                 password: null,
+                remember:null,
             }),
+            isRememberClicked:false,
         }
+    },
+    watch:{
+        isRememberClicked:{
+          handler(){
+              if(this.isRememberClicked){
+                  this.form.remember = 'on'
+              }
+              else{
+                  this.form.remember = null
+              }
+          }  ,
+        },
     },
     components: {
         NavBar,
