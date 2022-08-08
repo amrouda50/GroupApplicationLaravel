@@ -5,7 +5,7 @@
             v-bind:groups="groups"
             v-on:go-to-add-group="stats = 'addGroup'"
         />
-        <AddGroup v-if="isAddGroup" />
+        <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
         <GroupDetails v-if="isGroupDetails" />
         <UserDetails v-if="isUserDetails"/>
     </div>
@@ -48,8 +48,7 @@ export default {
       }
     },
    async created() {
-       const response = await fetch('./api/groups')
-       this.groups = await response.json()
+       this.fetchNewGroups()
     },
     computed:{
         isDefault(){
@@ -67,6 +66,15 @@ export default {
             return this.stats === 'groupDetails'
         }
     },
+    methods:{
+        async fetchNewGroups() {
+            const response = await fetch('./api/groups')
+            this.groups = await response.json()
+        },
+        onAddUpdate(){
+            this.fetchNewGroups()
+        },
+    }
 }
 
 </script>

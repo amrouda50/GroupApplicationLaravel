@@ -18,7 +18,6 @@ class GroupController extends Controller
         group::factory()->create(['name' => $request->name,
             'description' =>  $request->description,
         ]);
-
-        return 'Success';
+        return redirect()->back();
     }
 }
