@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-slate-600/80 background flex content">
+    <div class="background bg-slate-600/80 flex content">
         <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName" />
         <SideNavBar
             v-bind:groups="groups"
@@ -7,9 +7,11 @@
             v-on:select-group="selectgroup"
             v-on:delete-group="deletegroup"
         />
-        <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
-        <GroupDetails v-if="isGroupDetails"  v-bind:Group="currentGroup"/>
-        <UserDetails v-if="isUserDetails"/>
+        <div class="pl-20 pt-20">
+            <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
+            <GroupDetails v-if="isGroupDetails"  v-bind:Group="currentGroup"/>
+            <UserDetails v-if="isUserDetails"/>
+        </div>
     </div>
 </template>
 
@@ -99,6 +101,6 @@ export default {
 
 <style scoped>
 .background{
-    height: 100vh;
+    min-height: 100vh;
 }
 </style>
