@@ -1,5 +1,4 @@
 <template>
-
     <div  class="rounded w-64 h-24  text-black bg-gray-50 dark:bg-gray-800">
         <div class="flex relative">
             <img class=" mr-3  p-1 h-6 sm:h-9 rounded-full" :src="require('~/images/avatar-svgrepo-com.svg')">
@@ -10,8 +9,6 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 

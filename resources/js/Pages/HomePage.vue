@@ -7,6 +7,7 @@
             v-on:go-to-add-group="stats = 'addGroup'"
             v-on:select-group="selectgroup"
             v-on:delete-group="deletegroup"
+            v-on:drop-to-group="onGroupDrop"
         />
         <div class="pl-20 bg-slate-600/80 pt-20 w-full">
             <AddGroup v-if="isAddGroup" v-on:update="onAddUpdate()"/>
@@ -17,7 +18,11 @@
                 v-on:remove-user="onRemoveUserFromCurrent"
             />
             <UserDetails v-if="isUserDetails"/>
-            <Default v-if="isDefault" :users="users"/>
+            <Default
+                v-if="isDefault"
+                :users="users"
+                v-on:drag-user="onDragUser"
+            />
         </div>
     </div>
 </template>
@@ -61,6 +66,7 @@ export default {
           currentGroup:null,
           currentDeletedGroup:null,
           users:[],
+          draggedUser: null,
       }
     },
    async created() {
@@ -83,7 +89,6 @@ export default {
             return this.stats === 'groupDetails'
         }
     },
-
     methods:{
         async fetchNewGroups() {
             const response = await fetch('./api/groups')
@@ -112,6 +117,17 @@ export default {
         onRemoveUserFromCurrent(userId) {
             const users = this.currentGroup.users.filter(u => u.id !== userId)
             this.currentGroup.users = [...users]
+        },
+        onDragUser(user) {
+            this.draggedUser = user
+        },
+        onGroupDrop(index) {
+          //  console.log(this.groups[index], this.draggedUser)
+                this.$inertia.visit( `/api/groups/${this.groups[index].id}/users/${this.draggedUser.id}` , {
+                    method: 'put',
+                    preserveScroll: true
+                })
+
         }
     }
 }

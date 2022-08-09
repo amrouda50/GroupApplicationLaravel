@@ -27,6 +27,7 @@ Route::prefix('groups')->group(function () {
     Route::get('/' , [GroupController::class , 'index'] );
     Route::delete('/{id}' , [GroupController::class, 'destroy'] );
     Route::delete('{groupId}/users/{userId}' , [GroupController::class, 'removeUser'] );
+    Route::put('{groupId}/users/{userId}' , [GroupController::class, 'addUser'] );
     Route::put('/{id}' , [GroupController::class, 'edit'] );
     Route::post('/' , [GroupController::class , 'create'] );
 });

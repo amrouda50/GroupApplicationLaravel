@@ -29,9 +29,14 @@
                 <button v-on:click="openUsersPage"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-3 whitespace-nowrap">{{'All users'}}</span>
                 </button>
-                  <li v-for="(group, index) in groups" v-bind:key="group.id">
+                  <li
+                      v-for="(group, index) in groups"
+                      v-bind:key="group.id"
+                      v-on:drop="onDrop(index)"
+                      v-on:dragover="onDragOver"
+                  >
                       <button v-on:click="OpenGroup(index)" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                          <img v-on:click="DeleteGroup(index)" class="h-5 w-5" :src="require('~/images/delete-icon.svg')" />
+                          <img v-on:click="DeleteGroup($event, index)"  class="h-5 w-5" :src="require('~/images/delete-icon.svg')" />
                           <span class="flex-1 ml-3 whitespace-nowrap">{{group.name}}</span>
                       </button>
                   </li>
@@ -56,11 +61,19 @@ methods:{
     OpenGroup(index){
     this.$emit('select-group' , index)
     },
-    DeleteGroup(index){
+    DeleteGroup(e, index){
+        e.stopPropagation()
         this.$emit('delete-group' , index)
     },
     openUsersPage(){
       this.$emit('open-users-page')
+    },
+    onDrop(index) {
+        this.$emit('drop-to-group', index)
+    },
+    onDragOver(event) {
+        event.preventDefault()
+        event.dataTransfer.dropEffect = 'move'
     },
 },
 }
