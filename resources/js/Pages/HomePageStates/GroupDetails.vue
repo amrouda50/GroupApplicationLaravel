@@ -4,18 +4,12 @@
         <div class="divider my-8" />
         <div class="grid grid-rows-4 grid-flow-col gap-4 pb-6 pr-6 ">
 
-            <div v-for="(user , i) in Group.users" v-bind:key="i" class="rounded w-64 h-24  text-black bg-gray-50 dark:bg-gray-800">
-                <div class="flex relative">
-                    <img class=" mr-3  p-1 h-6 sm:h-9 rounded-full" :src="require('~/images/avatar-svgrepo-com.svg')">
-                    <img v-on:click="deleteUserFromGroup(user.id)" class="h-5 w-5 absolute right-0 m-1 cursor-pointer" :src="require('~/images/delete-icon.svg')" />
-                    <div>
-                        <h6> {{user.name}}</h6>
-                        <h6> {{user.email}}</h6>
-                    </div>
-                </div>
-
-
-            </div>
+       <UserBox
+           v-for="user in Group.users"
+           v-bind:user="user"
+           v-bind:key="user.id"
+           v-on:delete-user="deleteUserFromGroup"
+       />
         </div>
 
         <GroupInput
@@ -43,6 +37,7 @@
 
 <script>
 import GroupInput from "../Components/GroupInput"
+import UserBox from "../Components/UserBox"
 export default {
     data(){
         return{
@@ -50,7 +45,8 @@ export default {
         }
     },
     components: {
-        GroupInput
+        GroupInput,
+        UserBox,
     },
     props:{
       Group:{
@@ -67,9 +63,9 @@ export default {
         onRemoveUser(id){
             this.$emit('remove-user', id)
         },
-        deleteUserFromGroup(id){
-            this.$inertia.delete( `/api/groups/${this.Group.id}/users/${id}` , {
-                onSuccess: () => this.onRemoveUser(id),
+        deleteUserFromGroup(user){
+            this.$inertia.delete( `/api/groups/${this.Group.id}/users/${user.id}` , {
+                onSuccess: () => this.onRemoveUser(user.id),
             })
         },
     },

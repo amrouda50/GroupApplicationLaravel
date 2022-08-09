@@ -26,7 +26,9 @@
 <!--                            </li>-->
 <!--                        </ul>-->
 <!--                    </li>-->
-
+                <button v-on:click="openUsersPage"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span class="flex-1 ml-3 whitespace-nowrap">{{'All users'}}</span>
+                </button>
                   <li v-for="(group, index) in groups" v-bind:key="group.id">
                       <button v-on:click="OpenGroup(index)" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                           <img v-on:click="DeleteGroup(index)" class="h-5 w-5" :src="require('~/images/delete-icon.svg')" />
@@ -56,7 +58,10 @@ methods:{
     },
     DeleteGroup(index){
         this.$emit('delete-group' , index)
-    }
+    },
+    openUsersPage(){
+      this.$emit('open-users-page')
+    },
 },
 }
 </script>
