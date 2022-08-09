@@ -42,8 +42,8 @@ class RegisterController extends Controller
             //User Logging in
             Auth::attempt($request->only('email','password'));
             //Attaching the user to groups
-             $category = group::find([20, 21]);
-             $user->groups()->attach($category);
+             $group = group::find([20, 21]);
+             $user->groups()->attach($group);
 
 
             //redirecting to the HomePage

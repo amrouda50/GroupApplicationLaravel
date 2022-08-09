@@ -1,5 +1,5 @@
 <template>
-    <div class="background bg-slate-600/80 flex content">
+    <div class="background  flex content">
         <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName" />
         <SideNavBar
             v-bind:groups="groups"
@@ -7,7 +7,7 @@
             v-on:select-group="selectgroup"
             v-on:delete-group="deletegroup"
         />
-        <div class="pl-20 pt-20">
+        <div class="pl-20 bg-slate-600/80 pt-20 w-full">
             <AddGroup v-if="isAddGroup" v-on:update="onAddUpdate()"/>
             <GroupDetails v-if="isGroupDetails" v-on:update="onAddUpdate()" v-bind:Group="currentGroup"/>
             <UserDetails v-if="isUserDetails"/>
