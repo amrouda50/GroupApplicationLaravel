@@ -9,3 +9,8 @@
     margin-top: 55px;
 }
 
+.divider {
+    height: 1px;
+    @apply border-b border-black/80 w-full;
+}
+
