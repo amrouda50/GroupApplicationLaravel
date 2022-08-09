@@ -41,6 +41,16 @@ class GroupController extends Controller
         $user->groups()->detach($group);
         return redirect()->route('HomePage');
     }
+    public function addUser( $groupId ,$userId){
+        $group = group::find($groupId);
+        $user = User::find($userId);
+
+       if($group->users->contains($user)){
+           return redirect()->route('HomePage');
+       }
+        $user->groups()->attach($group);
+        return redirect()->route('HomePage');
+    }
 
     public function edit($id , Request $request){
         DB::table('groups')->where('id', $id)->update(['name' => $request->name, 'description' =>$request->description ]);

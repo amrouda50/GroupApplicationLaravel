@@ -2,7 +2,7 @@
     <div>
         <h1 class=" mb-6 text-xl font-bold text-white/80">Current Users</h1>
         <div class="divider my-8" />
-        <div class="grid grid-rows-4 grid-flow-col gap-4 pb-6 pr-6 ">
+        <div class="grid grid-cols-3 grid-flow-row gap-4 pb-6 pr-6 ">
 
        <UserBox
            v-for="user in Group.users"
@@ -69,9 +69,6 @@ export default {
             })
         },
     },
-    mounted() {
-        console.log(this.Group.users[0].name)
-    }
 }
 
 </script>
