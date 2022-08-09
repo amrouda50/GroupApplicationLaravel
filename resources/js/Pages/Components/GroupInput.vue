@@ -1,7 +1,7 @@
 <template>
     <div>
     <form @submit.prevent="submit()">
-        <h1 class=" mb-6 text-xl font-bold text-white/80">{{Functionality[0]}}</h1>
+        <h1 class=" mb-6 text-xl font-bold text-white/80">{{functionality[0]}}</h1>
         <slot name="group-properties"></slot>
         <div>
             <label  class="text-white/80">Group name</label>
@@ -20,7 +20,7 @@
 
         </div>
         <button type="submit" class="mt-8 bg-blue-50	text-black py-2 px-4 text-sm flex-1 font-medium items-center text-white/60  rounded border border-white/60 hover:bg-white-100">
-            {{Functionality[1]}}
+            {{functionality[1]}}
         </button>
     </form>
     </div>
@@ -30,7 +30,7 @@
 <script>
 export default{
     props:{
-        Functionality:{
+        functionality:{
             required:true,
             type:Array,
         },

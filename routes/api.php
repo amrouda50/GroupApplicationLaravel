@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('groups')->group(function () {
     Route::get('/' , [GroupController::class , 'index'] );
     Route::delete('/{id}' , [GroupController::class, 'destroy'] );
+    Route::put('/{id}' , [GroupController::class, 'edit'] );
     Route::post('/' , [GroupController::class , 'create'] );
 });
