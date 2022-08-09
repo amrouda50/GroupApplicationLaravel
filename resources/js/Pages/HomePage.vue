@@ -2,6 +2,7 @@
     <div class="background  flex content">
         <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName" />
         <SideNavBar
+            v-on:open-users-page="stats = 'default'"
             v-bind:groups="groups"
             v-on:go-to-add-group="stats = 'addGroup'"
             v-on:select-group="selectgroup"
@@ -16,6 +17,7 @@
                 v-on:remove-user="onRemoveUserFromCurrent"
             />
             <UserDetails v-if="isUserDetails"/>
+            <Default v-if="isDefault" :users="users"/>
         </div>
     </div>
 </template>
@@ -28,6 +30,7 @@ import SideNavBar from './nav/SideNavBar'
 import AddGroup from './HomePageStates/AddGroup'
 import GroupDetails from './HomePageStates/GroupDetails'
 import UserDetails from './HomePageStates/UserDetails'
+import Default from './HomePageStates/Default'
 
 export default {
     components:{
@@ -36,6 +39,7 @@ export default {
         GroupDetails,
         UserDetails,
         AddGroup,
+        Default,
     },
     props:{
         UserName:{
@@ -56,10 +60,12 @@ export default {
           stats:'default',
           currentGroup:null,
           currentDeletedGroup:null,
+          users:[],
       }
     },
    async created() {
        this.fetchNewGroups()
+       this.getAllUsers()
     },
     computed:{
         isDefault(){
@@ -86,6 +92,11 @@ export default {
         },
         onAddUpdate(){
             this.fetchNewGroups()
+        },
+        async getAllUsers(){
+            const response = await fetch('./api/users')
+            this.users = await response.json()
+            this.stats = 'default'
         },
         selectgroup(index){
            this.currentGroup =  this.groups[index]
