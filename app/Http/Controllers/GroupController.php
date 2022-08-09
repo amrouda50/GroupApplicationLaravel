@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Inertia\Inertia;
 
 class GroupController extends Controller
@@ -30,6 +31,14 @@ class GroupController extends Controller
     public function destroy($id){
 
         group::find($id)->delete();
+        return redirect()->route('HomePage');
+    }
+    public function removeUser( $groupId ,$userId){
+
+
+        $group = group::find($groupId);
+        $user = User::find($userId);
+        $user->groups()->detach($group);
         return redirect()->route('HomePage');
     }
 
