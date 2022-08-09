@@ -8,8 +8,8 @@
             v-on:delete-group="deletegroup"
         />
         <div class="pl-20 pt-20">
-            <AddGroup v-if="isAddGroup" v-on:update=" onAddUpdate()"/>
-            <GroupDetails v-if="isGroupDetails"  v-bind:Group="currentGroup"/>
+            <AddGroup v-if="isAddGroup" v-on:update="onAddUpdate()"/>
+            <GroupDetails v-if="isGroupDetails" v-on:update="onAddUpdate()" v-bind:Group="currentGroup"/>
             <UserDetails v-if="isUserDetails"/>
         </div>
     </div>

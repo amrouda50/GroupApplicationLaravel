@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,13 +34,18 @@ class RegisterController extends Controller
                 'password' => 'required|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
             ]);
              //User added to the database
-            User::create([
+             $user =   User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
             //User Logging in
             Auth::attempt($request->only('email','password'));
+            //Attaching the user to groups
+             $category = group::find([20, 21]);
+             $user->groups()->attach($category);
+
+
             //redirecting to the HomePage
             return redirect()->route('HomePage');
     }

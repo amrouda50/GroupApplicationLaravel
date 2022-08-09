@@ -3,6 +3,7 @@
         <GroupInput
             v-bind:group="Group"
             v-bind:functionality="functionality"
+            v-on:submit="EditGroup"
         >
             <template #group-properties>
                 <article>
@@ -38,6 +39,13 @@ export default {
           type:Object,
       },
     },
+    methods:{
+        EditGroup(form){
+        this.$inertia.put(`/api/groups/${this.Group.id}`, form , {
+                    onSuccess: () => {this.$emit('update')}
+            })
+        }
+    }
 }
 
 </script>
