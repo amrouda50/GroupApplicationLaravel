@@ -7,9 +7,8 @@
             <div v-for="(user , i) in Group.users" v-bind:key="i" class="rounded w-64 h-24  text-black bg-gray-50 dark:bg-gray-800">
                 <div class="flex relative">
                     <img class=" mr-3  p-1 h-6 sm:h-9 rounded-full" :src="require('~/images/avatar-svgrepo-com.svg')">
-                    <img class="h-5 w-5 absolute right-0 m-1 cursor-pointer" :src="require('~/images/delete-icon.svg')" />
+                    <img v-on:click="deleteUserFromGroup(user.id)" class="h-5 w-5 absolute right-0 m-1 cursor-pointer" :src="require('~/images/delete-icon.svg')" />
                     <div>
-
                         <h6> {{user.name}}</h6>
                         <h6> {{user.email}}</h6>
                     </div>
@@ -64,7 +63,15 @@ export default {
         this.$inertia.put(`/api/groups/${this.Group.id}`, form , {
                     onSuccess: () => {this.$emit('update')}
             })
-        }
+        },
+        onRemoveUser(id){
+            this.$emit('remove-user', id)
+        },
+        deleteUserFromGroup(id){
+            this.$inertia.delete( `/api/groups/${this.Group.id}/users/${id}` , {
+                onSuccess: () => this.onRemoveUser(id),
+            })
+        },
     },
     mounted() {
         console.log(this.Group.users[0].name)

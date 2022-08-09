@@ -9,7 +9,12 @@
         />
         <div class="pl-20 bg-slate-600/80 pt-20 w-full">
             <AddGroup v-if="isAddGroup" v-on:update="onAddUpdate()"/>
-            <GroupDetails v-if="isGroupDetails" v-on:update="onAddUpdate()" v-bind:Group="currentGroup"/>
+            <GroupDetails
+                v-if="isGroupDetails"
+                v-bind:Group="currentGroup"
+                v-on:update="onAddUpdate()"
+                v-on:remove-user="onRemoveUserFromCurrent"
+            />
             <UserDetails v-if="isUserDetails"/>
         </div>
     </div>
@@ -86,13 +91,17 @@ export default {
            this.currentGroup =  this.groups[index]
             this.stats = 'groupDetails'
         },
-         deletegroup(index){
+        deletegroup(index){
             this.currentDeletedGroup =  this.groups[index]
             this.$inertia.delete( `/api/groups/${this.currentDeletedGroup.id}` , {
                 onBefore: () => confirm('Are you sure you want to delete this user?'),
                 onSuccess: () => this.onAddUpdate(),
             })
         },
+        onRemoveUserFromCurrent(userId) {
+            const users = this.currentGroup.users.filter(u => u.id !== userId)
+            this.currentGroup.users = [...users]
+        }
     }
 }
 
