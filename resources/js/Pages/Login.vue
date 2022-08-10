@@ -53,7 +53,6 @@
                                     >
                                     <div class="text-red-500 mt-2 text-sm" v-if="errors.credentials">{{ errors.credentials }}</div>
                                 </div>
-                                <a href="#!" class="text-gray-800">Forgot password?</a>
                             </div>
 
                             <div class="text-center lg:text-left">
