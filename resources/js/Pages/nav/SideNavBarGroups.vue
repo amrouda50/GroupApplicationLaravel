@@ -23,9 +23,14 @@
                 alt="Arrow"
             >
         </button>
-<!--        <side-nav-bar-groups -->
-<!--            v-if="localGroups[index].expandable"-->
-<!--        />-->
+        <side-nav-bar-groups
+            class="pl-4"
+            v-on:drop-to-group="onDrop"
+            v-on:select-group="OpenGroup"
+            v-on:delete-group="DeleteGroup"
+            v-if="localGroups[index].expandable && localGroups[index].expand"
+            :groups="localGroups[index].groups"
+        />
     </li>
 
 </ul>
@@ -34,7 +39,7 @@
 
 <script>
 export default {
-
+    name: 'side-nav-bar-groups',
     props:{
         groups:{
             required:true,
@@ -51,7 +56,10 @@ export default {
         groups: {
             immediate: true,
             handler() {
-                this.localGroups = this.groups.map(g => ({ expand: false, expandable: g.users.length !== 0, ...g }))
+                if (this.groups.length > 0) {
+                    this.localGroups = this.groups.map(g => ({ expand: false, expandable: (g.groups && g.groups.length > 0)
+                            || (g.users && g.users.length !== 0), ...g }))
+                }
             }
         }
     },

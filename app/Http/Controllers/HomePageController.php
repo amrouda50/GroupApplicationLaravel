@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\group;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use phpDocumentor\Reflection\Types\Boolean;

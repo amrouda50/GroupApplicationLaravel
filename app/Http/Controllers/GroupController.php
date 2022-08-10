@@ -11,9 +11,7 @@ use Inertia\Inertia;
 class GroupController extends Controller
 {
     public function index() {
-        return group::all()->each(function ($group) {
-            return  array_merge(['users' => $group->users], (array) $group);
-        });
+        return group::tree();
     }
 
     public function create(Request $request){

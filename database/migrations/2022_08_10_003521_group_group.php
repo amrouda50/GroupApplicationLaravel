@@ -13,7 +13,12 @@ class GroupGroup extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('group_group', function (Blueprint $table) {
+            $table->id();
+            $table->integer('group_id')->unsigned();
+            $table->integer('parent_group_id')->unsigned();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class GroupGroup extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('group_group');
     }
 }
