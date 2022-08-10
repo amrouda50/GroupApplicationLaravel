@@ -2,10 +2,20 @@
     <div>
         <h1 class=" mb-6 text-xl font-bold text-white/80">Current Users</h1>
         <div class="divider my-8" />
+        <div class="mb-6">
+            <h1 class=" mb-6 text-xl text-white/80" >Search</h1>
+            <input
+                type="text"
+                v-model="searchName"
+                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                placeholder="Search for user"
+            />
+        </div>
         <div class="grid grid-cols-3 grid-flow-row gap-4 pb-6 pr-6 ">
 
        <UserBox
-           v-for="user in Group.users"
+           :draggable="false"
+           v-for="user in filteredUsers"
            v-bind:user="user"
            v-bind:key="user.id"
            v-on:delete-user="onRemoveUser(user.id)"
@@ -18,6 +28,7 @@
             v-bind:functionality="functionality"
             v-on:submit="EditGroup"
         >
+
             <template #group-properties>
                 <article>
                     <h1 class=" mb-6 text-xl text-white/80">
@@ -41,7 +52,8 @@ import UserBox from "../Components/UserBox"
 export default {
     data(){
         return{
-            functionality:['Edit Group' , 'Edit Group']
+            functionality:['Edit Group' , 'Edit Group'],
+            searchName:'',
         }
     },
     components: {
@@ -53,6 +65,11 @@ export default {
           required:true,
           type:Object,
       },
+    },
+    computed:{
+      filteredUsers(){
+          return this.Group.users.filter(e => e.name.includes(this.searchName))
+      }  ,
     },
     methods:{
         EditGroup(form){

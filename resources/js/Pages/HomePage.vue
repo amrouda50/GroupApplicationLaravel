@@ -8,6 +8,12 @@
             v-on:select-group="selectgroup"
             v-on:delete-group="deletegroup"
             v-on:drop-to-group="onGroupDrop"
+            v-on:drag-user="onDragUserOnGroup"
+            v-on:drag-group="onDragGroup"
+            v-on:open-user-page = "openUserPage"
+            draggable="true"
+            v-on:dragover.native="sideBarDragOver"
+            v-on:drop.native="sideBarDrop"
         />
         <div class="pl-20 bg-slate-600/80 pt-20 w-full">
             <AddGroup v-if="isAddGroup" v-on:update="onAddUpdate()"/>
@@ -17,7 +23,7 @@
                 v-on:update="onAddUpdate()"
                 v-on:remove-user="onRemoveUserFromCurrent"
             />
-            <UserDetails v-if="isUserDetails"/>
+            <UserDetails v-if="isUserDetails" v-bind:current-user="currentUser"/>
             <Default
                 v-if="isDefault"
                 :users="users"
@@ -64,9 +70,12 @@ export default {
           groups:[],
           stats:'default',
           currentGroup:null,
+          currentUser:null,
           currentDeletedGroup:null,
           users:[],
           draggedUser: null,
+          draggedGroup: null,
+          parentGroup: null,
       }
     },
    async created() {
@@ -90,6 +99,22 @@ export default {
         }
     },
     methods:{
+        sideBarDragOver(event) {
+          event.stopPropagation()
+          event.preventDefault()
+          event.dataTransfer.dropEffect = 'move'
+        },
+        sideBarDrop(){
+            let data = {}
+            data.group = this.draggedGroup
+            if (this.parentGroup) {
+                data.from = this.parentGroup
+            }
+            this.$inertia.visit( `/api/groups/group/replace` , {
+                method: 'put',
+                data,
+            })
+        },
         async fetchNewGroups() {
             const response = await fetch('./api/groups')
             this.groups = await response.json()
@@ -132,16 +157,47 @@ export default {
                 preserveScroll: true
             })
         },
+        onDragUserOnGroup(group, user) {
+            this.draggedGroup = group
+            this.draggedUser = user
+        },
         onDragUser(user) {
             this.draggedUser = user
         },
-        onGroupDrop(group) {
-            console.log(group, group.id, this.draggedUser)
+        onDragGroup(group, parent) {
+            this.draggedGroup = group
+            this.parentGroup = typeof parent === 'object' ? parent : null
+        },
+        onGroupDrop(group, dragState) {
+            console.log(dragState)
+            if (dragState === 'group-drag') {
+                let data = {}
+                data.group = this.draggedGroup
+                data.to = group
+                if (this.parentGroup) {
+                    data.from = this.parentGroup
+                }
+                this.$inertia.visit( `/api/groups/group/replace` , {
+                    method: 'put',
+                    data,
+                })
+            } else if (dragState === 'user-drag')  {
+                this.$inertia.visit( `/api/groups/replaceuser` , {
+                    method: 'put',
+                    data: { from: this.draggedGroup, to: group, user: this.draggedUser },
+                })
+
+            } else {
                 this.$inertia.visit( `/api/groups/${group.id}/users/${this.draggedUser.id}` , {
                     method: 'put',
                 })
+            }
 
-        }
+         },
+       openUserPage(user){
+            this.currentUser = user
+            this.stats = 'userDetails'
+       },
     }
 }
 

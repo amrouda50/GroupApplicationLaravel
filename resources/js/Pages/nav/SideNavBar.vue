@@ -16,6 +16,9 @@
                     v-on:drop-to-group="onDrop"
                     v-on:select-group="OpenGroup"
                     v-on:delete-group="DeleteGroup"
+                    v-on:drag-user="dragUser"
+                    v-on:drag-group="dragGroup"
+                    v-on:open-user-page="openUserPage"
                     :groups="groups"/>
                 </ul>
         </aside>
@@ -48,10 +51,21 @@ props:{
     openUsersPage(){
       this.$emit('open-users-page')
     },
-    onDrop(group) {
-        this.$emit('drop-to-group', group)
+    onDrop(group, dragState) {
+        this.$emit('drop-to-group', group, dragState)
     },
-},
+    dragUser(group, user) {
+        this.$emit('drag-user', group, user)
+    },
+    dragGroup(group, parent){
+        this.$emit('drag-group', group, parent)
+    },
+        openUserPage(user) {
+            this.$emit('open-user-page', user)
+
+        },
+
+    },
 }
 </script>
 
