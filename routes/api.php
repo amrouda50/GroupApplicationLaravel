@@ -28,6 +28,10 @@ Route::prefix('groups')->group(function () {
     Route::delete('/{id}' , [GroupController::class, 'destroy'] );
     Route::delete('{groupId}/users/{userId}' , [GroupController::class, 'removeUser'] );
     Route::put('{groupId}/users/{userId}' , [GroupController::class, 'addUser'] );
+    Route::put('/replaceuser' , [GroupController::class, 'replaceUser'] );
     Route::put('/{id}' , [GroupController::class, 'edit'] );
     Route::post('/' , [GroupController::class , 'create'] );
+    Route::put('/group/replace' , [GroupController::class, 'replacegroup'] );
+
+
 });
