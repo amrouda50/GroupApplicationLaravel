@@ -8,7 +8,7 @@
            v-for="user in Group.users"
            v-bind:user="user"
            v-bind:key="user.id"
-           v-on:delete-user="deleteUserFromGroup"
+           v-on:delete-user="onRemoveUser(user.id)"
        />
         </div>
 
@@ -61,12 +61,7 @@ export default {
             })
         },
         onRemoveUser(id){
-            this.$emit('remove-user', id)
-        },
-        deleteUserFromGroup(user){
-            this.$inertia.delete( `/api/groups/${this.Group.id}/users/${user.id}` , {
-                onSuccess: () => this.onRemoveUser(user.id),
-            })
+            this.$emit('remove-user', this.Group.id, id)
         },
     },
 }

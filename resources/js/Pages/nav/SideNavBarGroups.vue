@@ -3,34 +3,42 @@
     <li
         v-for="(group, index) in localGroups"
         v-bind:key="group.id"
-        v-on:drop="onDrop(index)"
+        v-on:drop="onDrop($event, group)"
         v-on:dragover="onDragOver"
         class="cursor-move"
     >
-        <button v-on:click="OpenGroup(index)" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            <img
-                v-on:click="DeleteGroup($event, index)"
-                class="h-5 w-5"
-                :src="require('~/images/delete-icon.svg')"
-            />
-            <span class="flex-1 ml-3 whitespace-nowrap">{{group.name}}</span>
-            <img
-                v-if="localGroups[index].expandable"
-                class="w-6 h-6"
-                :class="{'arrow-right': !localGroups[index].expand  , 'arrow-up': localGroups[index].expand}"
-                :src="require('~/images/arrow.svg')"
-                v-on:click="openGroup($event, group)"
-                alt="Arrow"
-            >
-        </button>
-        <side-nav-bar-groups
-            class="pl-4"
-            v-on:drop-to-group="onDrop"
-            v-on:select-group="OpenGroup"
-            v-on:delete-group="DeleteGroup"
-            v-if="localGroups[index].expandable && localGroups[index].expand"
-            :groups="localGroups[index].groups"
-        />
+        <div class="">
+            <button v-on:click="openGroup(group.id)" class="flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2">
+                <img
+                    v-on:click="DeleteGroup($event, index)"
+                    class="h-5 w-5"
+                    :src="require('~/images/delete-icon.svg')"
+                />
+                <span class="flex-1 ml-3 whitespace-nowrap">{{group.name}}</span>
+                <img
+                    v-if="localGroups[index].expandable"
+                    class="w-6 h-6"
+                    :class="{'arrow-right': !localGroups[index].expand  , 'arrow-up': localGroups[index].expand}"
+                    :src="require('~/images/arrow.svg')"
+                    alt="Arrow"
+                >
+            </button>
+            <div v-if="localGroups[index].expandable && localGroups[index].expand" class="pl-4">
+                <div class="text-left">
+                    <side-nav-bar-groups
+                        v-on:drop-to-group="onDropChild"
+                        v-on:select-group="selectGroup"
+                        v-on:delete-group="DeleteGroup"
+                        :groups="localGroups[index].groups"
+                    />
+                </div>
+                <div v-bind:key="user.id" v-for=" user in localGroups[index].users" class="text-left flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2">
+                    <img  alt="Avatar" class="mr-3 cursor-pointer h-4 sm:h-4 rounded-full" :src="require('~/images/avatar-svgrepo-com.svg')">
+                    {{user.name}}
+                </div>
+            </div>
+        </div>
+
     </li>
 
 </ul>
@@ -64,19 +72,24 @@ export default {
         }
     },
 methods:{
-    onDrop(index) {
-        this.$emit('drop-to-group', index)
+    onDrop(e,group) {
+        e.stopPropagation()
+        this.$emit('drop-to-group', group)
+    },
+    onDropChild(group) {
+        this.$emit('drop-to-group', group)
     },
     onDragOver(event) {
         event.preventDefault()
         event.dataTransfer.dropEffect = 'move'
     },
-    openGroup( event , group){
-        event.stopPropagation()
+    openGroup(id){
+        const group =this.localGroups.find(l => l.id === id)
         group.expand = !group.expand
+        this.$emit('select-group', id)
     },
-    OpenGroup(index){
-        this.$emit('select-group' , index)
+    selectGroup(id) {
+        this.$emit('select-group' , id)
     },
     DeleteGroup(e, index){
         e.stopPropagation()

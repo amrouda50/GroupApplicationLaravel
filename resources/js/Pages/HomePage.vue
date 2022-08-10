@@ -103,9 +103,21 @@ export default {
             this.users = await response.json()
             this.stats = 'default'
         },
-        selectgroup(index){
-           this.currentGroup =  this.groups[index]
+        selectgroup(id){
+            const current = this.searchInGroups(this.groups, id).flat(Infinity)
+           this.currentGroup = current[0]
             this.stats = 'groupDetails'
+        },
+        searchInGroups(groups, id) {
+            if (!groups || groups.length === 0) {
+                return []
+            }
+            const group = groups.find(g => g.id === id)
+            if (group) {
+                return [group]
+            }
+
+            return groups.map(group => this.searchInGroups(group.groups, id))
         },
         deletegroup(index){
             this.currentDeletedGroup =  this.groups[index]
@@ -114,18 +126,19 @@ export default {
                 onSuccess: () => this.onAddUpdate(),
             })
         },
-        onRemoveUserFromCurrent(userId) {
-            const users = this.currentGroup.users.filter(u => u.id !== userId)
-            this.currentGroup.users = [...users]
+        onRemoveUserFromCurrent(groupId, userId) {
+            this.$inertia.visit( `/api/groups/${groupId}/users/${userId}` , {
+                method: 'delete',
+                preserveScroll: true
+            })
         },
         onDragUser(user) {
             this.draggedUser = user
         },
-        onGroupDrop(index) {
-          //  console.log(this.groups[index], this.draggedUser)
-                this.$inertia.visit( `/api/groups/${this.groups[index].id}/users/${this.draggedUser.id}` , {
+        onGroupDrop(group) {
+            console.log(group, group.id, this.draggedUser)
+                this.$inertia.visit( `/api/groups/${group.id}/users/${this.draggedUser.id}` , {
                     method: 'put',
-                    preserveScroll: true
                 })
 
         }

@@ -29,10 +29,16 @@ class group extends Model
         return self::resursive_tree($groups, $group_groups);
     }
 
-    private static function resursive_tree($groups, $group_groups, $root = true) {
+    private static function resursive_tree(Collection $groups, $group_groups, $root = true) {
         $rootGroups = [];
 
+        $userGroups = new Collection();
         foreach ($groups as $group) {
+            $userGroups->add(array_merge(['users' => $group->users], $group->toArray()));
+        }
+
+        foreach ($userGroups as $arrayGroup) {
+            $group = $groups->where('id', '=', $arrayGroup['id'])->first();
             $condition = $root
                 ? $group_groups->whereIn('group_id', $group->getAttribute('id'))->isEmpty()
                 : !$group_groups->whereIn('parent_group_id', $group->getAttribute('id'))->isEmpty();
@@ -40,7 +46,8 @@ class group extends Model
                 if (count($group->groups) > 0) {
                     $group->groups = self::resursive_tree($group->groups, $group_groups, false);
                 }
-                $group = array_merge(['users' => $group->users, 'groups' => $group->groups], $group->toArray());
+
+                $group = array_merge(['groups' => $group->groups, 'users' => $arrayGroup['users']], $group->toArray());
                 $rootGroups[] = $group;
             }
         }
