@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return User::all()->each(function ($user) {
-            return  array_merge(['groups' => $user->groups], (array) $user);
+            return array_merge(['groups' => $user->groups], (array)$user);
         });
     }
 }

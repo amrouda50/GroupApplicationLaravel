@@ -10,7 +10,8 @@ use Inertia\Inertia;
 
 class LogoutController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         Auth::logout();
         return redirect()->back();
     }

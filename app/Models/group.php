@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\DB;
 class group extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
     ];
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class);
     }
-    public function groups(){
+
+    public function groups()
+    {
         return $this->belongsToMany(group::class, 'group_group', 'parent_group_id', 'group_id');
     }
 
@@ -29,17 +33,19 @@ class group extends Model
         return self::resursive_tree($groups, $group_groups);
     }
 
-    public static function remove_from($parent_id, $group_id) {
+    public static function remove_from($parent_id, $group_id)
+    {
         $group = DB::table('group_group')
-                ->where('parent_group_id', $parent_id)
-                ->where('group_id', $group_id)
-                ->first();
-        if($group->id) {
+            ->where('parent_group_id', $parent_id)
+            ->where('group_id', $group_id)
+            ->first();
+        if ($group->id) {
             DB::table('group_group')->delete([$group->id]);
         }
     }
 
-    public static function remove_from_groups($id) {
+    public static function remove_from_groups($id)
+    {
         $groups = DB::table('group_group')
             ->orWhere('parent_group_id', $id)
             ->orWhere('group_id', $id)
@@ -49,12 +55,14 @@ class group extends Model
         });
     }
 
-    public static function insert_to($parent_id, $group_id) {
-        $values = array('parent_group_id' => $parent_id,'group_id' => $group_id);
+    public static function insert_to($parent_id, $group_id)
+    {
+        $values = array('parent_group_id' => $parent_id, 'group_id' => $group_id);
         DB::table('group_group')->insert($values);
     }
 
-    private static function resursive_tree(Collection $groups, $group_groups, $root = true) {
+    private static function resursive_tree(Collection $groups, $group_groups, $root = true)
+    {
         $rootGroups = [];
 
         $userGroups = new Collection();
@@ -77,6 +85,6 @@ class group extends Model
             }
         }
 
-        return  $rootGroups;
+        return $rootGroups;
     }
 }

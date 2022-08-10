@@ -2,7 +2,8 @@
     <div>
         <NavBar v-bind:is-logged-in="IsLoggedIn" v-bind:user-email="UserEmail" v-bind:user-name="UserName"/>
         <figure class="md:flex bg-slate-100 p-8 dark:bg-slate-800 content">
-            <img class="w-24 h-24 rounded-full mx-auto" :src="require('~/images/OmarImage.jpg')" alt="" width="384" height="512">
+            <img class="w-24 h-24 rounded-full mx-auto" :src="require('~/images/OmarImage.jpg')" alt="" width="384"
+                 height="512">
             <div class="pt-6 text-center space-y-4">
                 <blockquote>
                     <p class="text-lg font-medium">
@@ -23,11 +24,13 @@
             </div>
         </figure>
         <figure class="md:flex bg-slate-100  p-8 dark:bg-slate-800 contentOne">
-            <img class=" w-28 h-24 rounded-full mx-auto" :src="require('~/images/AndreiImage.jpg')" alt="" width="384" height="512">
+            <img class=" w-28 h-24 rounded-full mx-auto" :src="require('~/images/AndreiImage.jpg')" alt="" width="384"
+                 height="512">
             <div class="pt-6 text-center space-y-4">
                 <blockquote>
                     <p class="text-lg font-medium">
-                        “Unity gave me a lots of new experiences I never imagined to have. Using good software is like drinking nice pile of wine, never gets old. “
+                        “Unity gave me a lots of new experiences I never imagined to have. Using good software is like
+                        drinking nice pile of wine, never gets old. “
                     </p>
 
                 </blockquote>
@@ -45,27 +48,27 @@
 </template>
 
 
-
 <script>
 import NavBar from './nav/NavBar'
+
 export default {
     components: {
         NavBar,
     },
-    props:{
+    props: {
         IsLoggedIn: {
             required: true,
         },
-        UserName:{
-            required:false,
+        UserName: {
+            required: false,
             type: String,
-            default:null,
+            default: null,
         },
 
-        UserEmail:{
-            required:false,
+        UserEmail: {
+            required: false,
             type: String,
-            default:null,
+            default: null,
         },
     },
 
@@ -75,10 +78,11 @@ export default {
 
 
 <style scoped>
-.content{
-   height: 200px;
+.content {
+    height: 200px;
 }
-.contentOne{
-    height:calc(100vh - 272px);
+
+.contentOne {
+    height: calc(100vh - 272px);
 }
 </style>

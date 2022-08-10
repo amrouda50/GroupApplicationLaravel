@@ -9,8 +9,9 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 class HomePageController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 //        dd(group::tree());
-        return Inertia::render('HomePage' , [ 'UserName' => Auth::user()->name , 'UserEmail' => Auth::user()->email]);
+        return Inertia::render('HomePage', ['UserName' => Auth::user()->name, 'UserEmail' => Auth::user()->email]);
     }
 }

@@ -14,7 +14,7 @@ class AboutUsController extends Controller
         if(Auth::check()){
             return Inertia::render('AboutUs', [ 'IsLoggedIn' => true , 'UserName' => Auth::user()->name , 'UserEmail' => Auth::user()->email]);
         }
-        return Inertia::render('AboutUs', [ 'IsLoggedIn' => false ]);
+        return Inertia::render('AboutUs', ['IsLoggedIn' => false]);
 
     }
 }
