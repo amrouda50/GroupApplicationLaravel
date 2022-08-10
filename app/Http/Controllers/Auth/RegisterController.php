@@ -23,30 +23,29 @@ class RegisterController extends Controller
     public function index()
     {
         //redirecting the page to Register component
-        return Inertia::render('Register' ) ;
+        return Inertia::render('Register', ['IsLoggedIn' => false]);
     }
-    public function store(Request $request){
 
-            //Validating the registration information
-             $this->validate($request ,[
-                'name' => 'required|max:255|min:2',
-                'email' => 'required|email|max:255',
-                'password' => 'required|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
-            ]);
-             //User added to the database
-             $user =   User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-            //User Logging in
-            Auth::attempt($request->only('email','password'));
-            //Attaching the user to groups
-             $group = group::find([20, 21]);
-             $user->groups()->attach($group);
+    public function store(Request $request)
+    {
 
+        //Validating the registration information
+        $this->validate($request, [
+            'name' => 'required|max:255|min:2',
+            'email' => 'required|email|max:255',
+            'password' => 'required|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
+        ]);
+        //User added to the database
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-            //redirecting to the HomePage
-            return redirect()->route('HomePage');
+        //User Logging in
+        Auth::attempt($request->only('email', 'password'));
+
+        //redirecting to the HomePage
+        return redirect()->route('HomePage');
     }
 }

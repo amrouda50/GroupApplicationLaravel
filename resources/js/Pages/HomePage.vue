@@ -1,6 +1,6 @@
 <template>
     <div class="background  flex content">
-        <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName" />
+        <NavBar v-bind:is-logged-in="true" v-bind:user-email="UserEmail" v-bind:user-name="UserName"/>
         <SideNavBar
             v-on:open-users-page="stats = 'default'"
             v-bind:groups="groups"
@@ -10,7 +10,7 @@
             v-on:drop-to-group="onGroupDrop"
             v-on:drag-user="onDragUserOnGroup"
             v-on:drag-group="onDragGroup"
-            v-on:open-user-page = "openUserPage"
+            v-on:open-user-page="openUserPage"
             draggable="true"
             v-on:dragover.native="sideBarDragOver"
             v-on:drop.native="sideBarDrop"
@@ -34,7 +34,6 @@
 </template>
 
 
-
 <script>
 import NavBar from './nav/NavBar'
 import SideNavBar from './nav/SideNavBar'
@@ -44,7 +43,7 @@ import UserDetails from './HomePageStates/UserDetails'
 import Default from './HomePageStates/Default'
 
 export default {
-    components:{
+    components: {
         SideNavBar,
         NavBar,
         GroupDetails,
@@ -52,65 +51,65 @@ export default {
         AddGroup,
         Default,
     },
-    props:{
-        UserName:{
-            required:false,
+    props: {
+        UserName: {
+            required: false,
             type: String,
-            default:null,
+            default: null,
         },
 
-        UserEmail:{
-            required:false,
+        UserEmail: {
+            required: false,
             type: String,
-            default:null,
+            default: null,
         },
-   },
-    data(){
-      return{
-          groups:[],
-          stats:'default',
-          currentGroup:null,
-          currentUser:null,
-          currentDeletedGroup:null,
-          users:[],
-          draggedUser: null,
-          draggedGroup: null,
-          parentGroup: null,
-      }
     },
-   async created() {
-       this.fetchNewGroups()
-       this.getAllUsers()
+    data() {
+        return {
+            groups: [],
+            stats: 'default',
+            currentGroup: null,
+            currentUser: null,
+            currentDeletedGroup: null,
+            users: [],
+            draggedUser: null,
+            draggedGroup: null,
+            parentGroup: null,
+        }
     },
-    computed:{
-        isDefault(){
+    async created() {
+        this.fetchNewGroups()
+        this.getAllUsers()
+    },
+    computed: {
+        isDefault() {
             return this.stats === 'default'
         },
-        isAddGroup(){
+        isAddGroup() {
             return this.stats === 'addGroup'
         }
         ,
-        isUserDetails(){
+        isUserDetails() {
             return this.stats === 'userDetails'
 
         },
-        isGroupDetails(){
+        isGroupDetails() {
             return this.stats === 'groupDetails'
         }
     },
-    methods:{
+    methods: {
         sideBarDragOver(event) {
-          event.stopPropagation()
-          event.preventDefault()
-          event.dataTransfer.dropEffect = 'move'
+            event.stopPropagation()
+            event.preventDefault()
+            event.dataTransfer.dropEffect = 'move'
         },
-        sideBarDrop(){
+        sideBarDrop() {
             let data = {}
             data.group = this.draggedGroup
             if (this.parentGroup) {
                 data.from = this.parentGroup
             }
-            this.$inertia.visit( `/api/groups/group/replace` , {
+            this.$inertia.visit(`/api/groups/group/replace`, {
                 method: 'put',
                 data,
             })
@@ -120,17 +119,17 @@ export default {
             this.groups = await response.json()
             this.stats = 'default'
         },
-        onAddUpdate(){
+        onAddUpdate() {
             this.fetchNewGroups()
         },
-        async getAllUsers(){
+        async getAllUsers() {
             const response = await fetch('./api/users')
             this.users = await response.json()
             this.stats = 'default'
         },
-        selectgroup(id){
+        selectgroup(id) {
             const current = this.searchInGroups(this.groups, id).flat(Infinity)
-           this.currentGroup = current[0]
+            this.currentGroup = current[0]
             this.stats = 'groupDetails'
         },
         searchInGroups(groups, id) {
@@ -144,15 +143,15 @@ export default {
 
             return groups.map(group => this.searchInGroups(group.groups, id))
         },
-        deletegroup(index){
-            this.currentDeletedGroup =  this.groups[index]
-            this.$inertia.delete( `/api/groups/${this.currentDeletedGroup.id}` , {
+        deletegroup(index) {
+            this.currentDeletedGroup = this.groups[index]
+            this.$inertia.delete(`/api/groups/${this.currentDeletedGroup.id}`, {
                 onBefore: () => confirm('Are you sure you want to delete this user?'),
                 onSuccess: () => this.onAddUpdate(),
             })
         },
         onRemoveUserFromCurrent(groupId, userId) {
-            this.$inertia.visit( `/api/groups/${groupId}/users/${userId}` , {
+            this.$inertia.visit(`/api/groups/${groupId}/users/${userId}`, {
                 method: 'delete',
                 preserveScroll: true
             })
@@ -177,27 +176,27 @@ export default {
                 if (this.parentGroup) {
                     data.from = this.parentGroup
                 }
-                this.$inertia.visit( `/api/groups/group/replace` , {
+                this.$inertia.visit(`/api/groups/group/replace`, {
                     method: 'put',
                     data,
                 })
-            } else if (dragState === 'user-drag')  {
-                this.$inertia.visit( `/api/groups/replaceuser` , {
+            } else if (dragState === 'user-drag') {
+                this.$inertia.visit(`/api/groups/replaceuser`, {
                     method: 'put',
-                    data: { from: this.draggedGroup, to: group, user: this.draggedUser },
+                    data: {from: this.draggedGroup, to: group, user: this.draggedUser},
                 })
 
             } else {
-                this.$inertia.visit( `/api/groups/${group.id}/users/${this.draggedUser.id}` , {
+                this.$inertia.visit(`/api/groups/${group.id}/users/${this.draggedUser.id}`, {
                     method: 'put',
                 })
             }
 
-         },
-       openUserPage(user){
+        },
+        openUserPage(user) {
             this.currentUser = user
             this.stats = 'userDetails'
-       },
+        },
     }
 }
 
@@ -205,7 +204,7 @@ export default {
 
 
 <style scoped>
-.background{
+.background {
     min-height: 100vh;
 }
 </style>
