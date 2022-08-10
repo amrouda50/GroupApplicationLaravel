@@ -17,6 +17,8 @@ const newRoute = (name, params, absolute) => route(name, params, absolute, Ziggy
 
 Vue.mixin({ methods: { route: newRoute } })
 
+Vue.component('side-nav-bar-groups', require('@/Pages/nav/SideNavBarGroups.vue'))
+
 createInertiaApp({
     resolve: name => require(`./Pages/${name}`),
     setup({ el, App, props, plugin }) {
