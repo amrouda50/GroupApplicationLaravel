@@ -41,6 +41,8 @@
                                    placeholder="Password"
                                    class="bg-slate-100 w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                         </div>
+                        <h5 class="text-xs mt-1 pointer-events-none text-gray-500 p-2">Password should have : atleast 1 special character , 1 upper case letter , 1 number
+                            , and atleast to have length of 8</h5>
                         <div class="flex">
                             <button class="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">
                                 Create
