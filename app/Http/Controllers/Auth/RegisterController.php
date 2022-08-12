@@ -32,7 +32,7 @@ class RegisterController extends Controller
         //Validating the registration information
         $this->validate($request, [
             'name' => 'required|max:255|min:2',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
         ]);
         //User added to the database

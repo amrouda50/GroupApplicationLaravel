@@ -19,7 +19,7 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'description' => 'min:8|nullable',
+            'description' => 'nullable',
         ]);
 
         group::factory()->create(['name' => $request->name,
@@ -84,7 +84,10 @@ class GroupController extends Controller
     {
         $group_from = $request->hasAny('from') ? group::find($request->get('from')['id']) : null;
         $group_to = $request->has('to') ? group::find($request->get('to')['id']) : null;
-        $group = group::find($request->get('group')['id']);
+        $group =  $request->has('group') ? group::find($request->get('group')['id']) : null;
+        if (!$group) {
+            return redirect()->route('HomePage');
+        }
         if ($group_to && $group_to->id === $group->id) {
             return redirect()->route('HomePage');
         }
